@@ -1,0 +1,16 @@
+{
+    "name": "lavoiesl/php-emmet",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sébastien Lavoie",
+            "email": "github@lavoie.sl"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Lavoiesl\\Emmet\\": "src/",
+            "Lavoiesl\\Emmet\\Test\\": "tests/"
+        }
+    }
+}
