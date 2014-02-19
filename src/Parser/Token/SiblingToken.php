@@ -6,20 +6,18 @@ use Lavoiesl\Emmet\Parser\ParserRule;
 
 class SiblingToken extends ElementToken
 {
-    public function __construct($name, array $lexerTokens)
+    public function __construct(array $tokens)
     {
-        if (null === $this->element_name) {
-            $this->element_name = $lexerTokens[1]->value;
-        }
+        parent::__construct($tokens);
 
-        parent::__construct($name, $lexerTokens);
+        $this->name = $tokens[1]->value;
     }
 
     public function process(\DOMNode $context)
     {
         $parent = null === $context->parentNode ? $context : $context->parentNode;
 
-        return $parent->append($this->element_name);
+        return $parent->append($this->name);
     }
 
     public static function getParserRules()

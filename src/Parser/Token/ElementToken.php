@@ -6,25 +6,24 @@ use Lavoiesl\Emmet\Parser\ParserRule;
 
 class ElementToken extends ParserToken
 {
-    protected $element_name;
+    public $name = null;
 
-    public function __construct($name, array $lexerTokens)
+    public function __construct(array $tokens)
     {
-        if (null === $this->element_name) {
-            $this->element_name = $lexerTokens[0]->value;
-        }
+        parent::__construct($tokens);
 
-        parent::__construct($name, $lexerTokens);
+        $this->name = $tokens[0]->value;
     }
 
     public function process(\DOMNode $context)
     {
-        return $context->append($this->element_name);
+        return $context->append($this->name);
     }
 
     public static function getParserRules()
     {
         $element = new ParserRule(__CLASS__, 'default', array('T_ATOM'));
+
         $element->validator = function(array $tokens) {
             return preg_match('/^[a-z][a-z0-9]*$/i', $tokens[0]->value);
         };
@@ -36,6 +35,6 @@ class ElementToken extends ParserToken
 
     public function __toString()
     {
-        return $this->element_name;
+        return $this->name;
     }
 }

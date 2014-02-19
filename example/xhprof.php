@@ -7,7 +7,7 @@ xhprof_enable();
 
 $n = filter_input(INPUT_GET, 'n', FILTER_VALIDATE_INT);
 if ($n < 1) {
-  $n = 1;
+  $n = 1000;
 }
 
 for ($i=0; $i < $n; $i++) {

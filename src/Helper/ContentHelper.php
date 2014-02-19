@@ -3,7 +3,7 @@
 namespace Lavoiesl\Emmet\Helper;
 
 use Lavoiesl\Emmet\Document;
-use Lavoiesl\Emmet\Parser\Token\AttributeNullToken;
+use Lavoiesl\Emmet\Parser\Token\AttributeToken;
 
 class ContentHelper
 {
@@ -23,7 +23,7 @@ class ContentHelper
     public function attr($context, $name, $value = null)
     {
         if ($value === null) {
-            $value = AttributeNullToken::DEFAULT_EMPTY;
+            $value = AttributeToken::DEFAULT_EMPTY;
         }
 
         $context->getNode()->setAttribute($name, $value);

@@ -2,7 +2,7 @@
 
 namespace Lavoiesl\Emmet\Formatter;
 
-use Lavoiesl\Emmet\Parser\Token\AttributeNullToken;
+use Lavoiesl\Emmet\Parser\Token\AttributeToken;
 
 class Formatter
 {
@@ -14,7 +14,7 @@ class Formatter
 
         $html = $document->saveXML($node, LIBXML_NOEMPTYTAG);
 
-        $html = str_replace('="'.AttributeNullToken::DEFAULT_EMPTY.'"', '', $html);
+        $html = str_replace('="'.AttributeToken::DEFAULT_EMPTY.'"', '', $html);
         $html = preg_replace('/><\/(?:'.implode('|', $this->inline_elements).')>/i', '>', $html);
 
         return $html;

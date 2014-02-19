@@ -7,15 +7,13 @@ use Lavoiesl\Emmet\Parser\Exception\TokenUsageException;
 
 class TextToken extends ParserToken
 {
-    protected $text;
+    public $value;
 
-    public function __construct($name, array $lexerTokens)
+    public function __construct(array $tokens)
     {
-        if (null === $this->text) {
-            $this->text = $lexerTokens[0]->value;
-        }
+        parent::__construct($tokens);
 
-        parent::__construct($name, $lexerTokens);
+        $this->value = $tokens[0]->value;
     }
 
     public function process(\DOMNode $context)
@@ -24,7 +22,7 @@ class TextToken extends ParserToken
             throw new TokenUsageException($this, 'Trying to set text on unsupported node: ' . $context->nodeName);
         }
 
-        return $context->t($this->text);
+        return $context->t($this->value);
     }
 
     public static function getParserRules()
@@ -36,6 +34,6 @@ class TextToken extends ParserToken
 
     public function __toString()
     {
-        return $this->text;
+        return $this->value;
     }
 }

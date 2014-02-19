@@ -6,13 +6,12 @@ use Lavoiesl\Emmet\Parser\ParserRule;
 
 class IdToken extends AttributeToken
 {
-    public function __construct($name, array $lexerTokens)
+    public function __construct(array $tokens)
     {
-        $this->attr_name = 'id';
+        parent::__construct($tokens);
 
-        parent::__construct($name, $lexerTokens);
-
-        $this->attr_value = $lexerTokens[1]->value;
+        $this->name = 'id';
+        $this->value = $tokens[1]->value;
     }
 
     public static function getParserRules()

@@ -18,11 +18,7 @@ class ParserRule
 
     public function __construct($tokenClass, $stateIn, array $tokens, $stateOut = null)
     {
-        $pieces = explode('\\', $tokenClass);
-        $tokenName = $pieces[count($pieces) - 1];
-
         $this->tokenClass = $tokenClass;
-        $this->tokenName  = preg_replace('/Token$/', '', $tokenName);
         $this->stateIn    = $stateIn;
         $this->tokens     = $tokens;
         $this->stateOut   = $stateOut === null ? $stateIn : $stateOut;
@@ -36,6 +32,6 @@ class ParserRule
     public function createToken(array $tokens)
     {
         $class = $this->tokenClass;
-        return new $class($this->tokenName, $tokens);
+        return new $class($tokens);
     }
 }

@@ -2,15 +2,8 @@
 
 use Lavoiesl\Emmet\Emmet;
 
-require '../vendor/autoload.php';
-
-class BootstrapHelper
-{
-    public function alert($context, $class, $html)
-    {
-        return $context["div.alert.alert-$class"]->h($html);
-    }
-}
+require __DIR__ . '/../vendor/autoload.php';
 
 $emmet = new Emmet;
-$emmet->addHelper(new BootstrapHelper);
+
+require 'helper.php';

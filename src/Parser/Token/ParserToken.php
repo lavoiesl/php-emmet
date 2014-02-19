@@ -4,20 +4,11 @@ namespace Lavoiesl\Emmet\Parser\Token;
 
 abstract class ParserToken
 {
-    protected $name;
+    public $offset;
 
-    protected $lexerTokens;
-
-    public function __construct($name, array $lexerTokens)
+    public function __construct(array $tokens)
     {
-        $this->name = $name;
-
-        $this->lexerTokens = $lexerTokens;
-    }
-
-    public function getTokens()
-    {
-        return $this->lexerTokens;
+        $this->offset = $tokens[0]->offset;
     }
 
     abstract public function process(\DOMNode $context);

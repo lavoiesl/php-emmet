@@ -3,7 +3,6 @@
 namespace Lavoiesl\Emmet\Helper;
 
 use Lavoiesl\Emmet\Document;
-use Lavoiesl\Emmet\Parser\Token\AttributeNullToken;
 
 class TagHelper
 {

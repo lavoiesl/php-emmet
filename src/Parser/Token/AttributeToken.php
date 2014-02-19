@@ -7,23 +7,39 @@ use Lavoiesl\Emmet\Parser\Exception\TokenUsageException;
 
 class AttributeToken extends ParserToken
 {
-    protected $attr_name = null;
+    const DEFAULT_EMPTY = 'DEFAULT_EMPTY_ATTRIBUTE';
 
-    protected $attr_value = null;
+    public $name = null;
 
-    public function __construct($name, array $lexerTokens)
+    public $value = null;
+
+    public function __construct(array $tokens)
     {
-        if (null === $this->attr_name) {
-            $this->attr_name = $lexerTokens[1]->value;
-        }
+        parent::__construct($tokens);
 
-        parent::__construct($name, $lexerTokens);
+        $this->name = $tokens[1]->value;
+
+        if (isset($tokens[3])) {
+            $this->value = $tokens[3]->value;
+        } else {
+            $this->value = self::DEFAULT_EMPTY;
+        }
+    }
+
+    public static function getParserRules()
+    {
+        return array(
+            new ParserRule(__CLASS__, 'default', array('T_ATTR_OPEN', 'T_ATOM', 'T_ATTR_CLOSE')),
+            new ParserRule(__CLASS__, 'default', array('T_ATTR_OPEN', 'T_ATOM', 'T_ATTR_SEPARATOR', 'T_ATTR_CLOSE')),
+            new ParserRule(__CLASS__, 'default', array('T_ATTR_OPEN', 'T_ATOM', 'T_ATTR_SEPARATOR', 'T_ATOM', 'T_ATTR_CLOSE')),
+            new ParserRule(__CLASS__, 'default', array('T_ATTR_OPEN', 'T_ATOM', 'T_ATTR_SEPARATOR', 'T_STRING', 'T_ATTR_CLOSE')),
+        );
     }
 
     public function process(\DOMNode $context)
     {
         if (method_exists($context, 'setAttribute')) {
-            $context->setAttribute($this->attr_name, $this->attr_value);
+            $context->setAttribute($this->name, $this->value);
 
             return $context;
         } else {
@@ -33,6 +49,6 @@ class AttributeToken extends ParserToken
 
     public function __toString()
     {
-        return $this->attr_name . ($this->attr_value === null ? '' : "=\"{$this->attr_value}\"");
+        return $this->name . ($this->value === null || $this->value === self::DEFAULT_EMPTY ? '' : "=\"{$this->value}\"");
     }
 }

@@ -6,13 +6,11 @@ use Lavoiesl\Emmet\Parser\ParserRule;
 
 class ChildToken extends ElementToken
 {
-    public function __construct($name, array $lexerTokens)
+    public function __construct(array $tokens)
     {
-        if (null === $this->element_name) {
-            $this->element_name = $lexerTokens[1]->value;
-        }
+        parent::__construct($tokens);
 
-        parent::__construct($name, $lexerTokens);
+        $this->name = $tokens[1]->value;
     }
 
     public static function getParserRules()

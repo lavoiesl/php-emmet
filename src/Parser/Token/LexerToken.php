@@ -10,17 +10,17 @@ class LexerToken
 
     public $matched;
 
-    public $line;
-
     public $offset;
 
-    public function __construct($name, $value, $matched = null, $line = null, $offset = null)
+    public $length;
+
+    public function __construct($name, $value, $matched, $offset, $length)
     {
         $this->name    = $name;
         $this->value   = $value;
         $this->matched = $matched;
-        $this->line    = $line;
         $this->offset  = $offset;
+        $this->length  = $length;
     }
 
     public function __toString()

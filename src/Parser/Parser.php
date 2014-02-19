@@ -39,14 +39,13 @@ class Parser
 
     public function parse($input)
     {
-        $tokens = $this->lexer->parse($input);
+        $tokens = $this->lexer->parse($input, $tokenNames);
 
-        return $this->parseTokens($tokens);
+        return $this->parseTokens($tokens, $tokenNames);
     }
 
-    protected function parseTokens($tokens)
+    protected function parseTokens($tokens, $tokenNames)
     {
-        $tokenNames = array_map(function($token) { return $token->name; }, $tokens);
         $parserTokens = array();
         $state = 'default';
         $i = 0;
@@ -61,7 +60,7 @@ class Parser
                     if ($rule->tokens == $tokenNamesSlice) {
                         $tokensSlice = array_slice($tokens, $i, $j);
 
-                        if ($rule->validate($tokensSlice)) {
+                        if (!$rule->validator || call_user_func($rule->validator, $tokensSlice)) {
                             $parserTokens[] = $rule->createToken($tokensSlice);
 
                             $state = $rule->stateOut;

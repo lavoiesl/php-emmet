@@ -38,44 +38,42 @@ class Lexer
         "/^([a-z]([a-z0-9\-_]*[a-z0-9])?)/i" => "T_ATOM",
     );
 
-    public function parse($lines)
+    public function parse($input, &$tokenNames = array())
     {
-        if (is_string($lines)) {
-            $lines = explode("\n", $lines);
-        } elseif (!is_array($lines)) {
-            throw new \InvalidArgumentException("Input must be a string or an array of lines");
+        if (!is_string($input)) {
+            throw new \InvalidArgumentException("Input must be a string");
         }
 
+        $offset = 0;
+        $length = strlen($input);
         $tokens = array();
 
-        foreach ($lines as $i => $line) {
-            $offset = 0;
-            $length = strlen($line);
+        while($offset < $length) {
+            if ($token = $this->match($input, $offset)) {
+                $offset += $token->length;
 
-            while($offset < $length) {
-                if ($token = $this->match(substr($line, $offset))) {
-                    $token->line   = $i;
-                    $token->offset = $offset;
-                    $offset += strlen($token->matched);
-
-                    $tokens[] = $token;
-                } else {
-                    throw new LexerException($i, $offset, $line);
-                }
+                $tokens[] = $token;
+                $tokenNames[] = $token->name;
+            } else {
+                throw new LexerException($offset, $input);
             }
         }
 
         return $tokens;
     }
 
-    protected function match($string)
+    protected function match($input, $offset)
     {
+        $string = substr($input, $offset);
         $first = $string[0];
+
         if (isset($this->singles[$first])) {
             return new LexerToken(
                 $this->singles[$first],
+                '',
                 $first,
-                $first
+                $offset,
+                1
             );
         }
 
@@ -86,7 +84,9 @@ class Lexer
                     return new LexerToken(
                         $name,
                         $matches[1],
-                        $matches[0]
+                        $matches[0],
+                        $offset,
+                        strlen($matches[0])
                     );
                 }
             }
@@ -99,7 +99,9 @@ class Lexer
                 return new LexerToken(
                     $name,
                     $matches[1],
-                    $matches[0]
+                    $matches[0],
+                    $offset,
+                    strlen($matches[0])
                 );
             }
         }
