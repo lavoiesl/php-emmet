@@ -19,7 +19,7 @@ class FlowHelper
     {
         $closure = $closure->bindTo($context);
 
-        for ($i=0; $i < $count; $i++) { 
+        for ($i=0; $i < $count; $i++) {
             if ($closure($i) === false) {
                 break;
             }

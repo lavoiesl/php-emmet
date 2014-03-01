@@ -99,7 +99,7 @@ class EmmetTest extends AbstractEmmetTest
                 ->body
                     ->div['.container']
                         ->input['[disabled]_']
-                        ->repeat(2, function() {
+                        ->repeat(2, function () {
                             $this->p['a+b'];
                         })->_
                     ->footer['{footer}']

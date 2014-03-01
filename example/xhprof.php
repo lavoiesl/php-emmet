@@ -38,7 +38,7 @@ $html = $emmet
           ->th->t('Internal time')->_
           ->_
         ->_
-      ->tbody->each($xhprof, function($key, $row) {
+      ->tbody->each($xhprof, function ($key, $row) {
         $parts = explode('==>', $key);
 
         $this->tr

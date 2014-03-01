@@ -4,7 +4,6 @@ namespace Lavoiesl\Emmet;
 
 use Lavoiesl\Emmet\Parser\Parser;
 use Lavoiesl\Emmet\Parser\Lexer;
-use Lavoiesl\Emmet\Helper;
 
 class Emmet implements \ArrayAccess
 {

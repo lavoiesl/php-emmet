@@ -2,8 +2,6 @@
 
 namespace Lavoiesl\Emmet\Helper;
 
-use Lavoiesl\Emmet\Document;
-
 class TagHelper
 {
     public function stylesheet($context, $href, array $attrs = array())

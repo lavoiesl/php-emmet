@@ -8,7 +8,6 @@ trait ElementCommon
     abstract public function getDocument();
     abstract public function getNode();
 
-
     public function offsetExists($offset)
     {
         // unsupported

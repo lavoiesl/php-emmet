@@ -19,7 +19,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
     public function testTokens($string, array $expected)
     {
         $tokens = $this->lexer->parse($string);
-        $tokens = array_map(function($token) { return $token->name; }, $tokens);
+        $tokens = array_map(function ($token) { return $token->name; }, $tokens);
 
         $this->assertEquals($tokens, $expected);
     }

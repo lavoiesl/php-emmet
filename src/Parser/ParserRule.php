@@ -2,8 +2,6 @@
 
 namespace Lavoiesl\Emmet\Parser;
 
-use Lavoiesl\Emmet\Parser\Token\ParserToken;
-
 class ParserRule
 {
     public $tokenName = null;
@@ -32,6 +30,7 @@ class ParserRule
     public function createToken(array $tokens)
     {
         $class = $this->tokenClass;
+
         return new $class($tokens);
     }
 }

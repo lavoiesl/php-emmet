@@ -2,7 +2,6 @@
 
 namespace Lavoiesl\Emmet;
 
-use Lavoiesl\Emmet\Parser\Parser;
 use Lavoiesl\Emmet\Formatter\Html5Formatter;
 
 class Document extends \DOMDocument implements \ArrayAccess
@@ -48,7 +47,7 @@ class Document extends \DOMDocument implements \ArrayAccess
                 case 'inline':
                     $options = array('formatOutput' => false);
                     break;
-                
+
                 default:
                     throw new \InvalidArgumentException('Unknown document option: "' . $options . '".');
                     break;

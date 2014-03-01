@@ -48,7 +48,7 @@ class Lexer
         $length = strlen($input);
         $tokens = array();
 
-        while($offset < $length) {
+        while ($offset < $length) {
             if ($token = $this->match($input, $offset)) {
                 $offset += $token->length;
 
@@ -94,7 +94,7 @@ class Lexer
             return false;
         }
 
-        foreach($this->complexes as $pattern => $name) {
+        foreach ($this->complexes as $pattern => $name) {
             if (preg_match($pattern, $string, $matches)) {
                 return new LexerToken(
                     $name,

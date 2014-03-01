@@ -24,7 +24,7 @@ class ElementToken extends ParserToken
     {
         $element = new ParserRule(__CLASS__, 'default', array('T_ATOM'));
 
-        $element->validator = function(array $tokens) {
+        $element->validator = function (array $tokens) {
             return preg_match('/^[a-z][a-z0-9]*$/i', $tokens[0]->value);
         };
 

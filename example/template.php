@@ -12,19 +12,19 @@ return $emmet
 
       ->h1->t('Hi!')->_
 
-      ->with(function() {
+      ->with(function () {
         if (true) {
           $this['p']->h('Arbitrary PHP in the middle using <code>with</code>.');
         }
       })
 
-      ->repeat(3, function($i) {
+      ->repeat(3, function ($i) {
         $this['p']->h('Usage of the <code>repeat</code> function: ' . $i);
       })
 
       ->comment("foreach + custom helper")
       ->div
-        ->each(['success', 'info', 'warning'], function($i, $class) {
+        ->each(['success', 'info', 'warning'], function ($_, $class) {
           $this->alert($class, 'Usage of the <code>each</code> function: '. $class);
         })->_
 

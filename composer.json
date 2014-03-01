@@ -1,5 +1,6 @@
 {
     "name": "lavoiesl/php-emmet",
+    "description": "PHP Templating library based on Emmet to generate structured HTML",
     "license": "MIT",
     "authors": [
         {
