@@ -8,6 +8,9 @@
             "email": "github@lavoie.sl"
         }
     ],
+    "require" : {
+        "php": ">=5.6"
+    },
     "autoload": {
         "psr-4": {
             "Lavoiesl\\Emmet\\": "src/",
