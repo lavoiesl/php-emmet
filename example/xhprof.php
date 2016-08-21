@@ -3,7 +3,13 @@
 
 require 'bootstrap.php';
 
-xhprof_enable();
+if (function_exists('xhprof_enable')) {
+  xhprof_enable();
+} elseif (function_exists('tideways_enable')) {
+  tideways_enable(TIDEWAYS_FLAGS_MEMORY + TIDEWAYS_FLAGS_CPU);
+} else {
+  throw new Exception("No profiler installed");
+}
 
 $n = filter_input(INPUT_GET, 'n', FILTER_VALIDATE_INT);
 if ($n < 1) {
@@ -14,7 +20,11 @@ for ($i=0; $i < $n; $i++) {
     include 'template.php';
 }
 
-$xhprof = xhprof_disable();
+if (function_exists('xhprof_disable')) {
+  $xhprof = xhprof_enable();
+} elseif (function_exists('tideways_disable')) {
+  $xhprof = tideways_disable();
+}
 
 $html = $emmet
 ->html
