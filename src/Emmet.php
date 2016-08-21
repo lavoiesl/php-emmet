@@ -13,18 +13,22 @@ class Emmet implements \ArrayAccess
 
     private $parser;
 
+    private static $default_parser;
+
     public function __construct()
     {
         $this->addHelper(new Helper\ContentHelper);
         $this->addHelper(new Helper\FlowHelper);
         $this->addHelper(new Helper\TagHelper);
 
-        $this->parser = new Parser(new Lexer);
+        if (null === self::$default_parser) {
+            self::$default_parser = new Parser(new Lexer);
+        }
     }
 
     public function getParser()
     {
-        return $this->parser;
+        return self::$default_parser;
     }
 
     public function getEmmet()
@@ -86,9 +90,7 @@ class Emmet implements \ArrayAccess
     public function callHelper($name, $context, array $args)
     {
         if (isset($this->helpers[$name])) {
-            array_unshift($args, $context);
-            $return = call_user_func_array(array($this->helpers[$name], $name), $args);
-
+            $return = $this->helpers[$name]->$name($context, ...$args);
             return is_object($return) ? $return : $context;
         } else {
             throw new \BadFunctionCallException("Helper $name does not exist.");
