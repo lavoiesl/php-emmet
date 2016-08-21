@@ -22,12 +22,6 @@ class ParserRule
         $this->stateOut   = $stateOut === null ? $stateIn : $stateOut;
     }
 
-    public function validate(array $tokens)
-    {
-        $validator = $this->validator;
-        return $validator === null ? true : $validator($tokens);
-    }
-
     public function createToken(array $tokens)
     {
         $class = $this->tokenClass;

@@ -15,8 +15,5 @@ abstract class ParserToken
 
     abstract public function __toString();
 
-    public static function getParserRules()
-    {
-        return array();
-    }
+    abstract public static function getParserRules();
 }
