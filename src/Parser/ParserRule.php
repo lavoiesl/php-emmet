@@ -24,7 +24,8 @@ class ParserRule
 
     public function validate(array $tokens)
     {
-        return $this->validator === null ? true : call_user_func($this->validator, $tokens);
+        $validator = $this->validator;
+        return $validator === null ? true : $validator($tokens);
     }
 
     public function createToken(array $tokens)

@@ -60,7 +60,8 @@ class Parser
                     if ($rule->tokens == $tokenNamesSlice) {
                         $tokensSlice = array_slice($tokens, $i, $j);
 
-                        if (!$rule->validator || call_user_func($rule->validator, $tokensSlice)) {
+                        $validator = $rule->validator;
+                        if (!$validator || $validator($tokensSlice)) {
                             $parserTokens[] = $rule->createToken($tokensSlice);
 
                             $state = $rule->stateOut;
