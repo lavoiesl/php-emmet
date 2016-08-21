@@ -56,6 +56,13 @@ class Emmet implements \ArrayAccess
         return $document->processEmmet($offset, $document);
     }
 
+    public function __get($name)
+    {
+        $document = $this->getDocument();
+
+        return $document->processEmmet($name, $document, 'atom');
+    }
+
     public function __invoke($options)
     {
         return $this->create($options);

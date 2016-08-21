@@ -15,6 +15,7 @@ class ParentToken extends ParserToken
     {
         return array(
             new ParserRule(__CLASS__, 'default', array('T_PARENT')),
+            new ParserRule(__CLASS__, 'atom', array('T_PARENT'), null),
         );
     }
 

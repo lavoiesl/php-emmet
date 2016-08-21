@@ -59,9 +59,9 @@ class Document extends \DOMDocument implements \ArrayAccess
         }
     }
 
-    public function processEmmet($string, \DOMNode $context)
+    public function processEmmet($string, \DOMNode $context, $state = 'default')
     {
-        $tokens = self::$emmet->getParser()->parse($string);
+        $tokens = self::$emmet->getParser()->parse($string, $state);
 
         if (!$tokens) {
             throw new \InvalidArgumentException('Invalid input: "' . $string . '".');

@@ -70,7 +70,6 @@ class ParserTest extends \PHPUnit_Framework_TestCase
             array('[=""]'),
             array('a.'),
             array('a#'),
-            array('a-b'),
         );
     }
 }

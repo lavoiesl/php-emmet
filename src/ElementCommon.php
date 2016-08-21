@@ -30,7 +30,7 @@ trait ElementCommon
 
     public function __get($name)
     {
-        return $this->offsetGet($name);
+        return $this->getDocument()->processEmmet($name, $this, 'atom');
     }
 
     public function __call($name, $args)

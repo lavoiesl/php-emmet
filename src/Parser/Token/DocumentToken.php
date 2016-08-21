@@ -15,6 +15,7 @@ class DocumentToken extends ParentToken
     {
         return array(
             new ParserRule(__CLASS__, 'default', array('T_DOCUMENT')),
+            new ParserRule(__CLASS__, 'atom', array('T_DOCUMENT'), null),
         );
     }
 }

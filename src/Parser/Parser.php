@@ -37,14 +37,14 @@ class Parser
         $this->rules[$rule->stateIn][] = $rule;
     }
 
-    public function parse($input)
+    public function parse($input, $state = 'default')
     {
         $tokens = $this->lexer->parse($input, $tokenNames);
 
-        return $this->parseTokens($tokens, $tokenNames);
+        return $this->parseTokens($tokens, $tokenNames, $state);
     }
 
-    protected function parseTokens($tokens, $tokenNames)
+    protected function parseTokens($tokens, $tokenNames, $state = 'default')
     {
         $parserTokens = array();
         $state = 'default';
