@@ -4,7 +4,7 @@ namespace Lavoiesl\Emmet\Parser;
 
 class ParserRule
 {
-    public $tokenName = null;
+    public $tokenClass = null;
 
     public $stateIn = null;
 
@@ -16,6 +16,9 @@ class ParserRule
 
     public function __construct($tokenClass, $stateIn, array $tokens, $stateOut = null)
     {
+        if (empty($tokens)) {
+            throw new IllegalStateException("ParserRule ${tokenClass} contains no tokens");
+        }
         $this->tokenClass = $tokenClass;
         $this->stateIn    = $stateIn;
         $this->tokens     = $tokens;
