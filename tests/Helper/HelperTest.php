@@ -8,13 +8,14 @@ class HelperTest extends AbstractEmmetTest
 {
     public function testInvalidHelper()
     {
-        $this->setExpectedException('BadFunctionCallException', "Helper foo does not exist.");
+        $this->expectException('BadFunctionCallException', "Helper foo does not exist.");
         $this->emmet->foo();
     }
 
     public function testHelper()
     {
         $this->emmet->addHelper(new TestHelper);
+        $this->assertTrue(true);
     }
 }
 

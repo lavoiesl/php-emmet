@@ -27,7 +27,7 @@ class EmmetTest extends AbstractEmmetTest
 
     public function testDuplicateDocumentElement()
     {
-        $this->setExpectedException('LogicException', 'The document already has a documentElement.');
+        $this->expectException('LogicException', 'The document already has a documentElement.');
 
         $html = $this->emmet
             ->a_
@@ -137,18 +137,19 @@ HTML;
         $html['foo'] = 'bar';
         isset($html['foo']);
         unset($html['foo']);
+        $this->assertTrue(true);
     }
 
     public function testEmpty()
     {
-        $this->setExpectedException('InvalidArgumentException', 'Invalid input: "".');
+        $this->expectException('InvalidArgumentException', 'Invalid input: "".');
 
         $this->emmet[''];
     }
 
     public function testInvalidOptions()
     {
-        $this->setExpectedException('InvalidArgumentException', 'Unknown document option: "foobar".');
+        $this->expectException('InvalidArgumentException', 'Unknown document option: "foobar".');
 
         $this->emmet->create('foobar');
     }
@@ -158,7 +159,7 @@ HTML;
      */
     public function testInvalidHtml($string, $message)
     {
-        $this->setExpectedException('Lavoiesl\Emmet\Parser\Exception\TokenUsageException', $message);
+        $this->expectException('Lavoiesl\Emmet\Parser\Exception\TokenUsageException', $message);
 
         $this->emmet[$string];
     }

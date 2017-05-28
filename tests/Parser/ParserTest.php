@@ -4,14 +4,16 @@ namespace Lavoiesl\Emmet\Test\Parser;
 
 use Lavoiesl\Emmet\Parser\Lexer;
 use Lavoiesl\Emmet\Parser\Parser;
+use PHPUnit\Framework\TestCase;
 
-class ParserTest extends \PHPUnit_Framework_TestCase
+class ParserTest extends TestCase
 {
     protected $parser;
 
     public function setUp()
     {
         $this->parser = new Parser(new Lexer);
+        $this->parser->compile();
     }
 
     /**

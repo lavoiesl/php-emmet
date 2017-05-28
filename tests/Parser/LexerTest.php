@@ -3,8 +3,9 @@
 namespace Lavoiesl\Emmet\Test\Parser;
 
 use Lavoiesl\Emmet\Parser\Lexer;
+use PHPUnit\Framework\TestCase;
 
-class LexerTest extends \PHPUnit_Framework_TestCase
+class LexerTest extends TestCase
 {
     protected $lexer;
 

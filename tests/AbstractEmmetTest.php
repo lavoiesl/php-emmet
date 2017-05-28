@@ -3,8 +3,9 @@
 namespace Lavoiesl\Emmet\Test;
 
 use Lavoiesl\Emmet\Emmet;
+use PHPUnit\Framework\TestCase;
 
-abstract class AbstractEmmetTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractEmmetTest extends TestCase
 {
     protected $emmet;
 
