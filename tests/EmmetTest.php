@@ -77,11 +77,22 @@ class EmmetTest extends AbstractEmmetTest
         $this->assertEquals('<a>foo barbaz</a>', ''.$html);
     }
 
-    public function testScript()
+    public function testScriptInline()
+    {
+        $html = $this->emmet->create('inline')->script->t('var x = {};');
+        $this->assertEquals('<script>var x = {};</script>', ''.$html);
+
+        $html = $this->emmet->create('inline')->scriptInline('var x = {};');
+        $this->assertEquals('<script>var x = {};</script>', ''.$html);
+    }
+
+    public function testScriptFormatted()
     {
         $html = $this->emmet->script->t('var x = {};');
+        $this->assertEquals("<script>\n  var x = {};\n</script>", ''.$html);
 
-        $this->assertEquals('<script>var x = {};</script>', ''.$html);
+        $html = $this->emmet->scriptInline('var x = {};');
+        $this->assertEquals("<script>\n  var x = {};\n</script>\n", ''.$html);
     }
 
     public function testRef()

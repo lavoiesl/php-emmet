@@ -29,6 +29,13 @@ class TagHelper
         self::setAttributes($node, $attrs);
     }
 
+    public function scriptInline($context, $content, array $attrs = array())
+    {
+        $node = $context->getDocument()->createElement('script', $content);
+        self::setAttributes($node, $attrs);
+        $context->appendChild($node);
+    }
+
     public function comment($context, $comment)
     {
         $node = $context->getDocument()->createComment(' ' . $comment . ' ');

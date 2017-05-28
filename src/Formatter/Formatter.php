@@ -12,6 +12,7 @@ class Formatter
         $document->formatOutput = $formatOutput;
         $document->preserveWhiteSpace = true;
 
+        $this->alterations($node, new \DOMXpath($document), $formatOutput);
         $html = $document->saveXML($node, LIBXML_NOEMPTYTAG);
 
         $html = str_replace('="'.AttributeToken::DEFAULT_EMPTY.'"', '', $html);
@@ -23,5 +24,25 @@ class Formatter
         }
 
         return $html;
+    }
+
+    protected function alterations(\DOMNode $node, \DOMXPath $xpath, $formatOutput)
+    {
+        if ($formatOutput) {
+            // Find non-empty
+            $scripts = $xpath->query('//script[. != \'\']', $node);
+            foreach ($scripts as $script) {
+                $content = trim($script->nodeValue, "\r\n");
+                // Detect current indentation based on first line.
+                preg_match('/^[ \t]*/', $content, $match);
+
+                $trim = $match[0];
+                $depth = substr_count($script->getNodePath(), '/');
+                $padding = str_repeat('  ', $depth); // indentation of 2 spaces
+                $content = preg_replace("/^${trim}/m", $padding, $content);
+
+                $script->nodeValue = PHP_EOL . $content . PHP_EOL . str_repeat('  ', $depth - 1);
+            }
+        }
     }
 }

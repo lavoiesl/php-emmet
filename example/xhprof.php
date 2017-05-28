@@ -74,11 +74,7 @@ $html = $emmet
       })
       ->_
     ->_
-  ->script->setRef($script)
-->__;
-
-$script->h(<<<JAVASCRIPT
-
+  ->scriptInline(<<<JAVASCRIPT
   $('.tablesorter').tablesorter({
     theme: 'bootstrap',
     widthFixed: true,
