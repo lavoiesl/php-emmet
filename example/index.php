@@ -1,4 +1,3 @@
-<!doctype html>
 <?php
 
 include 'bootstrap.php';

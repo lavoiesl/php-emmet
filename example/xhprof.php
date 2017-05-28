@@ -1,4 +1,3 @@
-<!doctype html>
 <?php
 
 require 'bootstrap.php';
@@ -37,6 +36,7 @@ if (function_exists('xhprof_disable')) {
 }
 
 $html = $emmet
+->doctype()
 ->html
   ->head
     ->meta['[charset="utf-8"]_']

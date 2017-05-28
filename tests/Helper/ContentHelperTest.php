@@ -8,9 +8,8 @@ class ContentHelperTest extends AbstractEmmetTest
 {
     public function testParsedHtml()
     {
-        // Impossible to insert HTML directly into the root of the document, it must be in at least one tag.
         $html = $this->emmet->create('inline')->h('This is some parsed <i>HTML</i>.');
-        $this->assertEquals('<i>HTML</i>', ''.$html);
+        $this->assertEquals("This is some parsed \n<i>HTML</i>\n.", ''.$html);
 
         $html = $this->emmet->create('inline')->div->h('This is some parsed <i>HTML</i>.');
         $this->assertEquals('<div>This is some parsed <i>HTML</i>.</div>', ''.$html);

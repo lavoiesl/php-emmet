@@ -110,6 +110,9 @@ class Emmet implements \ArrayAccess
 
     public function callHelper($name, $context, array $args)
     {
+        if ($context instanceof Emmet) {
+            $context = $context->getDocument();
+        }
         if (isset($this->helpers[$name])) {
             $return = $this->helpers[$name]->$name($context, ...$args);
             return is_object($return) ? $return : $context;

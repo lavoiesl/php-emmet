@@ -16,6 +16,11 @@ class Formatter
 
         $html = str_replace('="'.AttributeToken::DEFAULT_EMPTY.'"', '', $html);
         $html = preg_replace('/><\/(?:'.implode('|', $this->inline_elements).')>/i', '>', $html);
+        $html = preg_replace('/^<\\?xml version.+\n/', '', $html);
+
+        if (!$formatOutput) {
+            $html = trim($html);
+        }
 
         return $html;
     }

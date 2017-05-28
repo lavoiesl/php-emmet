@@ -4,6 +4,12 @@ namespace Lavoiesl\Emmet\Helper;
 
 class TagHelper
 {
+    public function doctype($context, $qualifiedName = 'html', $publicId = null, $systemId = null)
+    {
+        $imp = new \DOMImplementation();
+        $context->appendChild($imp->createDocumentType($qualifiedName, $publicId, $systemId));
+    }
+
     public function stylesheet($context, $href, array $attrs = array())
     {
         $node = $context

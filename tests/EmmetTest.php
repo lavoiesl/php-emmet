@@ -122,6 +122,7 @@ class EmmetTest extends AbstractEmmetTest
     <footer>footer</footer>
   </body>
 </html>
+
 HTML;
         $this->assertEquals($expected, ''.$html);
     }

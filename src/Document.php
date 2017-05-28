@@ -89,4 +89,9 @@ class Document extends \DOMDocument implements \ArrayAccess
 
         return $formatter->formatNode($element, $this->formatOutput);
     }
+
+    public function __toString()
+    {
+        return $this->elementToString($this);
+    }
 }
