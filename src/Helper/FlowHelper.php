@@ -31,4 +31,13 @@ class FlowHelper
         $closure = $closure->bindTo($context);
         $closure();
     }
+
+    public function navigate($context, $query)
+    {
+        $list = $context->query($query);
+        if ($list->length > 0) {
+            return $list->item(0);
+        }
+        // TODO: improve error handling
+    }
 }

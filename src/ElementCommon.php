@@ -52,6 +52,12 @@ trait ElementCommon
         return $this;
     }
 
+    public function query($query)
+    {
+        $xpath = new \DOMXPath($this->getDocument());
+        return $xpath->query($query, $this);
+    }
+
     public function __toString()
     {
         return $this->getDocument()->elementToString($this->getNode());

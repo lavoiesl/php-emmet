@@ -35,7 +35,7 @@ if (function_exists('xhprof_disable')) {
   ];
 }
 
-$html = $emmet
+echo $emmet
 ->doctype()
 ->html
   ->head
@@ -82,8 +82,5 @@ $html = $emmet
     widgets : [ "uitheme", "filter" ],
     sortList: [[3, 1]]
   });
-
 JAVASCRIPT
-);
-
-echo $html;
+)->__;

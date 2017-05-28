@@ -3,6 +3,8 @@
 include 'bootstrap.php';
 
 $start = microtime(true);
-echo include 'template.php';
+$emmet = include 'template.php';
 
-echo '<pre>Rendered in ' . number_format(1000 * (microtime(true) - $start), 2) . ' ms</pre>';
+$emmet->navigate('/html/body/div')->pre->t('Rendered in ' . number_format(1000 * (microtime(true) - $start), 2) . ' ms');
+
+echo $emmet;
