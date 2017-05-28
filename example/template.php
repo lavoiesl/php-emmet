@@ -19,14 +19,18 @@ return $emmet
         $p->h('Arbitrary PHP in the middle using <code>with</code>.');
       })
 
-      ->repeat(3, function ($i) {
-        $this['p']->h('Usage of the <code>repeat</code> function: ' . $i);
-      })
+      ->h2->h('Usage of the <code>repeat</code> function.')->_
+      ->ul
+        ->repeat(3, function ($i) {
+          $this['li']->h("Step #$i");
+        })->_
 
-      ->comment("foreach + custom helper")
+      ->comment("A comment")
+
+      ->h2->h('Usage of the <code>each</code> function.')->_
       ->div
         ->each(['success', 'info', 'warning'], function ($_, $class) {
-          $this->alert($class, 'Usage of the <code>each</code> function: '. $class);
+          $this->alert($class, "A '${class}' alert.");
         })->_
 
       ->p->h('This is some parsed <i>HTML</i>.')->_
