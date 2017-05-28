@@ -23,6 +23,7 @@ class Emmet implements \ArrayAccess
 
         if (null === self::$default_parser) {
             self::$default_parser = new Parser(new Lexer);
+            self::$default_parser->compile();
         }
     }
 

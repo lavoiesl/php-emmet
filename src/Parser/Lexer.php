@@ -33,7 +33,7 @@ class Lexer
         "/^([a-z]([a-z0-9\-_]*[a-z0-9])?)/i" => "T_ATOM",
     );
 
-    public function parse($input, &$tokenNames = array())
+    public function parse($input)
     {
         if (!is_string($input)) {
             throw new \InvalidArgumentException("Input must be a string");
@@ -48,7 +48,6 @@ class Lexer
                 $offset += $token->length;
 
                 $tokens[] = $token;
-                $tokenNames[] = $token->name;
             } else {
                 throw new LexerException($offset, $input);
             }
