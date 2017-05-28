@@ -6,6 +6,16 @@ class Element extends \DOMElement implements \ArrayAccess
 {
     use ElementCommon;
 
+    public function offsetSet($offset, $value)
+    {
+        $this->setAttribute($offset, $value);
+    }
+
+    public function offsetUnset($offset)
+    {
+        $this->removeAttribute($offset);
+    }
+
     public function getEmmet()
     {
         return $this->getDocument()->getEmmet();

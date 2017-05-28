@@ -14,9 +14,9 @@ return $emmet
       ->h1->t('Hi!')->_
 
       ->with(function () {
-        if (true) {
-          $this['p']->h('Arbitrary PHP in the middle using <code>with</code>.');
-        }
+        $p = $this['p'];
+        $p['arbitrary'] = "true";
+        $p->h('Arbitrary PHP in the middle using <code>with</code>.');
       })
 
       ->repeat(3, function ($i) {
