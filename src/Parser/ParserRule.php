@@ -12,8 +12,6 @@ class ParserRule
 
     public $stateOut = null;
 
-    public $validator = null;
-
     public function __construct($tokenClass, $stateIn, array $tokens, $stateOut = null)
     {
         if (empty($tokens)) {

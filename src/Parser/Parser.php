@@ -43,7 +43,7 @@ class Parser
      *     state => {
      *         lexerToken1 => {
      *             lexerToken2 => {
-     *                 _rules: [ParserRule]
+     *                 _rule: ParserRule
      *             }
      *         }
      *     }
@@ -64,10 +64,7 @@ class Parser
                     $tree =& $tree[$token];
                 }
 
-                if (!array_key_exists('_rules', $tree)) {
-                    $tree['_rules'] = [];
-                }
-                array_push($tree['_rules'], $rule);
+                $tree['_rule'] = $rule;
             }
         }
     }
@@ -102,20 +99,14 @@ class Parser
                 if (array_key_exists($tokenName, $tree)) {
                     $tree = $tree[$tokenName];
 
-                    if (array_key_exists('_rules', $tree)) {
-                        // Potential matches, invoke validators
+                    if (array_key_exists('_rule', $tree)) {
+                        // Found a match
                         $tokensSlice = array_slice($tokens, $i, $j - $i + 1);
-
-                        foreach ($tree['_rules'] as $rule) {
-                            $validator = $rule->validator;
-                            if (!$validator || $validator($tokensSlice)) {
-                                $parserTokens[] = $rule->createToken($tokensSlice);
-
-                                $state = $rule->stateOut;
-                                $i = $j + 1;
-                                continue 3;
-                            }
-                        }
+                        $rule = $tree['_rule'];
+                        $parserTokens[] = $rule->createToken($tokensSlice);
+                        $state = $rule->stateOut;
+                        $i = $j + 1;
+                        continue 2;
                     }
                     // Else: Continue diving down the tree
                 } else {
