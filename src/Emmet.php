@@ -13,23 +13,36 @@ class Emmet implements \ArrayAccess
 
     private $parser;
 
-    private static $default_parser;
+    private static $defaultHelpers;
 
-    public function __construct()
+    private static $defaultParser;
+
+    public function __construct($parser = null, $loadHelpers = true)
     {
-        $this->addHelper(new Helper\ContentHelper);
-        $this->addHelper(new Helper\FlowHelper);
-        $this->addHelper(new Helper\TagHelper);
+        if (null === $parser) {
+            if (null === self::$defaultParser) {
+                self::$defaultParser = new Parser(new Lexer);
+                self::$defaultParser->compile();
+            }
+            $parser = self::$defaultParser;
+        }
+        $this->parser = $parser;
 
-        if (null === self::$default_parser) {
-            self::$default_parser = new Parser(new Lexer);
-            self::$default_parser->compile();
+        if ($loadHelpers) {
+            if (null === self::$defaultHelpers) {
+                $this->addHelper(new Helper\ContentHelper);
+                $this->addHelper(new Helper\FlowHelper);
+                $this->addHelper(new Helper\TagHelper);
+                self::$defaultHelpers = $this->helpers;
+            } else {
+                $this->helpers = self::$defaultHelpers;
+            }
         }
     }
 
     public function getParser()
     {
-        return self::$default_parser;
+        return $this->parser;
     }
 
     public function getEmmet()
