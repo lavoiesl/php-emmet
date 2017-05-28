@@ -3,17 +3,18 @@
 
 require 'bootstrap.php';
 
+$n = filter_input(INPUT_GET, 'n', FILTER_VALIDATE_INT);
+if ($n < 1) {
+  $n = 1000;
+}
+
 if (function_exists('xhprof_enable')) {
   xhprof_enable();
 } elseif (function_exists('tideways_enable')) {
   tideways_enable(TIDEWAYS_FLAGS_MEMORY + TIDEWAYS_FLAGS_CPU);
 } else {
-  throw new Exception("No profiler installed");
-}
-
-$n = filter_input(INPUT_GET, 'n', FILTER_VALIDATE_INT);
-if ($n < 1) {
-  $n = 1000;
+  $memory = memory_get_peak_usage(true);
+  $start = microtime(true);
 }
 
 for ($i=0; $i < $n; $i++) {
@@ -24,6 +25,15 @@ if (function_exists('xhprof_disable')) {
   $xhprof = xhprof_enable();
 } elseif (function_exists('tideways_disable')) {
   $xhprof = tideways_disable();
+} else {
+  $xhprof = [
+    "Everything ==> (profiler disabled)" => [
+      'wt' => (microtime(true) - $start) * 1000,
+      'cpu' => 0,
+      'mu' => memory_get_peak_usage(true) - $memory,
+      'ct' => 1,
+    ]
+  ];
 }
 
 $html = $emmet
@@ -44,8 +54,10 @@ $html = $emmet
         ->tr
           ->th->t('Context')->_
           ->th->t('Function')->_
-          ->th->t('Wall time')->_
-          ->th->t('Internal time')->_
+          ->th->t('Wall time (ms)')->_
+          ->th->t('CPU')->_
+          ->th->t('Memory (Bytes)')->_
+          ->th->t('Count')->_
           ->_
         ->_
       ->tbody->each($xhprof, function ($key, $row) {
@@ -55,6 +67,8 @@ $html = $emmet
           ->td->t($parts[0])->_
           ->td->t(isset($parts[1]) ? $parts[1] : '')->_
           ->td->t(number_format($row['wt']))->_
+          ->td->t(number_format($row['cpu']))->_
+          ->td->t(number_format($row['mu']))->_
           ->td->t(number_format($row['ct']))->_
           ;
       })
