@@ -10,14 +10,11 @@ class LexerToken
 
     public $offset;
 
-    public $length;
-
-    public function __construct($name, $value, $offset, $length)
+    public function __construct($name, $value, $offset)
     {
         $this->name    = $name;
         $this->value   = $value;
         $this->offset  = $offset;
-        $this->length  = $length;
     }
 
     public function __toString()

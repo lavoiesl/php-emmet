@@ -7,6 +7,9 @@ use Lavoiesl\Emmet\Parser\Token\LexerToken;
 
 class Lexer
 {
+    /**
+     * Cases where a single character identifies the token with certainty
+     */
     protected $singles = array(
         '#' => 'T_ID',
         '.' => 'T_CLASS',
@@ -18,19 +21,27 @@ class Lexer
         '+' => 'T_SIBLING',
     );
 
+    /**
+     * Delimiters for strings
+     */
     protected $strings = array(
         "'" => array("'", '\\', 'T_STRING'),
         '"' => array('"', '\\', 'T_STRING'),
         '{' => array('}', '\\', 'T_TEXT'),
     );
 
+    /**
+     * Tokens that only match if at the end of the input.
+     * WARNING: If you add something that doesn't start with an underscore,
+     *          you must remove the optimization below.
+     */
     protected $ends = array(
         '_'  => 'T_PARENT',
         '__' => 'T_DOCUMENT',
     );
 
     protected $complexes = array(
-        "/^([a-z]([a-z0-9\-_]*[a-z0-9])?)/i" => "T_ATOM",
+        '/\G([a-z](?:[a-z0-9\-_]*[a-z0-9])?)/i' => 'T_ATOM',
     );
 
     public function parse($input)
@@ -41,12 +52,10 @@ class Lexer
 
         $offset = 0;
         $length = strlen($input);
-        $tokens = array();
+        $tokens = [];
 
         while ($offset < $length) {
-            if ($token = $this->match($input, $offset, $length)) {
-                $offset += $token->length;
-
+            if ($token = $this->match($input, $length, $offset)) {
                 $tokens[] = $token;
             } else {
                 throw new LexerException($offset, $input);
@@ -56,54 +65,52 @@ class Lexer
         return $tokens;
     }
 
-    protected function match($input, $offset, $length)
+    protected function match($input, $length, &$offset = 0)
     {
         $first = $input[$offset];
 
-        if (isset($this->singles[$first])) {
+        if ($first === '_') { // Optimization
+            foreach ($this->ends as $value => $name) {
+                if (substr_compare($input, $value, $offset) === 0) {
+                    $t = new LexerToken($name, $value, $offset);
+                    $offset += strlen($value);
+                    return $t;
+                }
+            }
+        }
+
+        if (array_key_exists($first, $this->singles)) {
+            $offset++;
             return new LexerToken(
                 $this->singles[$first],
                 '',
-                $offset,
-                1
+                $offset - 1
             );
         }
 
-        if (isset($this->strings[$first])) {
-            $end = $this->strings[$first][0];
-            $escape = $this->strings[$first][1];
-            $name = $this->strings[$first][2];
+        if (array_key_exists($first, $this->strings)) {
+            [$end, $escape, $name] = $this->strings[$first];
             if ($stringToken = $this->matchString($input, $end, $escape, $name, $offset, $length)) {
                 return $stringToken;
             }
         }
 
-        $string = substr($input, $offset);
-
-        if (isset($this->ends[$string])) {
-            return new LexerToken(
-                $this->ends[$string],
-                $string,
-                $offset,
-                strlen($string)
-            );
-        }
-
         foreach ($this->complexes as $pattern => $name) {
-            if (preg_match($pattern, $string, $matches)) {
-                return new LexerToken(
+            if (preg_match($pattern, $input, $matches, 0, $offset)) {
+                $t = new LexerToken(
                     $name,
                     $matches[1],
-                    $offset,
-                    strlen($matches[0])
+                    $offset
                 );
+                $offset += strlen($matches[0]);
+                return $t;
             }
         }
 
         return false;
     }
 
-    protected function matchString($input, $end, $escape, $name, $offset, $length)
+    public static function matchString($input, $end, $escape, $name, &$offset, $length)
     {
         $delim = $escape . $end;
         $pos = $offset + 1;
@@ -121,9 +128,9 @@ class Lexer
                     $t = new LexerToken(
                         $name,
                         substr($input, $offset + 1, $pos - $offset - 1),
-                        $offset,
-                        $pos - $offset + 1
+                        $offset
                     );
+                    $offset = $pos + 1;
                     return $t;
 
                 case $escape:
